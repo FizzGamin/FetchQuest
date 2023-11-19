@@ -24,10 +24,11 @@ public class PlayerController : EntityController
     {
         Debug.Log("player took " + damage + " damage");
         //take hit
-        health -= damage;
+        curHealth -= damage;
+        healthBar.UpdateHealthBar(maxHealth, curHealth);
 
         //Check if dead
-        if (health <= 0)
+        if (curHealth <= 0)
         {
             //Player dies
             room.PlayerDied();

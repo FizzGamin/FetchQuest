@@ -4,15 +4,18 @@ using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
 {
-    public int health = 0;
+    public int maxHealth = 0;
+    protected int curHealth = 0;
     public int attackStrength = 0;
     public int attackSpeed = 0;
 
-    public RoomController room;
+    protected RoomController room;
+    public HealthBarVisualizer healthBar;
 
     // Start is called before the first frame update
     void Awake()
     {
+        curHealth = maxHealth;
         room = FindAnyObjectByType<RoomController>();
     }
 
