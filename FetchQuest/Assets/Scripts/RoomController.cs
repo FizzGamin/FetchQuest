@@ -16,6 +16,7 @@ public class RoomController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = FindObjectOfType<PlayerController>();
         //Spawn first enemy
         SpawnEnemy();
     }
@@ -23,24 +24,27 @@ public class RoomController : MonoBehaviour
     public void SpawnEnemy()
     {
         //Check to see if this room is done
-        if(curEnemyIndex > roomEnemies.Count - 1)
+        if (curEnemyIndex > roomEnemies.Count - 1)
         {
             //Finish room
+            Debug.Log("Room was finished");
         }
         else
         {
             //Spawn new enemy
+            Debug.Log("Spawning enemy");
             enemy = Instantiate(roomEnemies[curEnemyIndex]).GetComponent<EnemyController>();
             enemy.transform.SetParent(enemySpot);
-            enemy.transform.position = Vector3.zero;
+            enemy.transform.localPosition = Vector3.zero;
+            enemy.transform.localScale = Vector3.one;
             curEnemyIndex++;
         }
-
     }
 
     public void AttackPlayer()
     {
-        if(player != null && enemy != null)
+        Debug.Log("enemy attacking player");
+        if (player != null && enemy != null)
         {
             player.TakeDamage(enemy.attackStrength);
 
@@ -49,6 +53,7 @@ public class RoomController : MonoBehaviour
 
     public void AttackEnemy()
     {
+        Debug.Log("player attacking enemy");
         if (player != null && enemy != null)
         {
             enemy.TakeDamage(player.attackStrength);
@@ -66,5 +71,7 @@ public class RoomController : MonoBehaviour
     {
         Debug.Log("enemy died");
         //Add to the score, spawn next enemy
+
+        SpawnEnemy();
     }
 }

@@ -625,8 +625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659680443e77c244dabcbc883b842313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpot: {fileID: 0}
-  enemySpot: {fileID: 0}
+  playerSpot: {fileID: 2008146564}
+  enemySpot: {fileID: 72030592}
   roomEnemies:
   - {fileID: 7895642029877842593, guid: 1d16c513b310e5f429649acfa99e203d, type: 3}
   - {fileID: 7895642029877842593, guid: 1d16c513b310e5f429649acfa99e203d, type: 3}

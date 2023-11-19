@@ -22,7 +22,7 @@ public class PlayerController : EntityController
     override
     public void TakeDamage(int damage)
     {
-        Debug.Log("player took " + damage + "damage");
+        Debug.Log("player took " + damage + " damage");
         //take hit
         health -= damage;
 

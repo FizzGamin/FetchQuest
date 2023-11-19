@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemyController : EntityController
 {
+    public void Start()
+    {
+        StartCoroutine(AttackLoop());
+    }
+
     public IEnumerator AttackLoop()
     {
         while(true)
@@ -17,7 +22,7 @@ public class EnemyController : EntityController
     override
     public void TakeDamage(int damage)
     {
-        Debug.Log("enemy took " + damage + "damage");
+        Debug.Log("enemy took " + damage + " damage");
         //take hit
         health -= damage;
 
