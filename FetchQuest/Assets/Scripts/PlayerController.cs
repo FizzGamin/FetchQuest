@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class PlayerController : EntityController
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            room.AttackEnemy();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    room.AttackEnemy();
+        //}
     }
 
     override

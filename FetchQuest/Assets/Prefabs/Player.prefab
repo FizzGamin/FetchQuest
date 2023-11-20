@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: f134cc034ec102c469ff2f472b0d423d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -90,10 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  curHealth: 0
   attackStrength: 10
   attackSpeed: 1
-  room: {fileID: 0}
   healthBar: {fileID: 6249960948217205447}
 --- !u!1 &1886872484658294535
 GameObject:

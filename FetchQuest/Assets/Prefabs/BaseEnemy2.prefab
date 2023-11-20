@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 4455802303283377378}
   - component: {fileID: 2620468363992980298}
   m_Layer: 5
-  m_Name: Enemy
+  m_Name: BaseEnemy2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,14 +149,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.114498615, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 6dc41dee6edca194384cd8e118b0692d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f7ce218671924e960cb575b0342f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  attackStrength: 5
+  maxHealth: 50
+  attackStrength: 10
   attackSpeed: 3
   healthBar: {fileID: 6108586523118978389}

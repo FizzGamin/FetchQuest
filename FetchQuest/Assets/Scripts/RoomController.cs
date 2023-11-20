@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoomController : MonoBehaviour
 {
+    private const float TURN_TIMER = 3f;
+
     PlayerController player;
     EnemyController enemy;
+    TurnCounterController turnController;
 
     public Transform playerSpot; 
     public Transform enemySpot;
@@ -13,12 +17,53 @@ public class RoomController : MonoBehaviour
     public List<GameObject> roomEnemies = new List<GameObject>();
     public int curEnemyIndex = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         player = FindObjectOfType<PlayerController>();
+        turnController = FindObjectOfType<TurnCounterController>();
+ 
+    }
+
+    void Start()
+    {
         //Spawn first enemy
         SpawnEnemy();
+
+        //Testing turn controller
+        turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
+        turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
+        turnController.AddTurn(player.gameObject.GetComponent<Image>().sprite, player);
+        turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
+        turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
+        turnController.AddTurn(player.gameObject.GetComponent<Image>().sprite, player);
+
+        StartCoroutine(GameLoop());
+    }
+
+    public IEnumerator GameLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(TURN_TIMER);
+
+            //Enemy attack
+            if(!turnController.IsPlayerTurn())
+            {
+                //Did player defend?
+                //if()
+                //else
+                AttackPlayer();
+            }
+            //Player Attacking
+            else
+            {
+                //Did attack succeed?
+                //if()
+                //else
+                AttackEnemy();
+            }
+            turnController.RemoveCurrentTurn();
+        }
     }
 
     public void SpawnEnemy()
@@ -39,6 +84,9 @@ public class RoomController : MonoBehaviour
             enemy.transform.localScale = Vector3.one;
             curEnemyIndex++;
         }
+
+        //populate turn cont based off attack speeds
+
     }
 
     public void AttackPlayer()
@@ -47,7 +95,7 @@ public class RoomController : MonoBehaviour
         if (player != null && enemy != null)
         {
             player.TakeDamage(enemy.attackStrength);
-
+            turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
         }
     }
 
@@ -57,7 +105,7 @@ public class RoomController : MonoBehaviour
         if (player != null && enemy != null)
         {
             enemy.TakeDamage(player.attackStrength);
-
+            turnController.AddTurn(player.gameObject.GetComponent<Image>().sprite, player);
         }
     }
 
