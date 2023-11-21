@@ -77,16 +77,16 @@ public class SkillCheckController : MonoBehaviour
     public SkillCheck GetSkillCheck()
     {
         //from 0 - 1 total
-        //8% chance
-        if (IsBetween(.46f, .54f, curPlayerMarkPos))
+        //5% chance
+        if (IsBetween(.475f, .525f, curPlayerMarkPos))
             return SkillCheck.Perfect;
-        //16% chance (24%-8%)
+        //24% chance
         else if(IsBetween(.38f, .62f, curPlayerMarkPos))
             return SkillCheck.Good;
-        //36% (60%-16%-8%)
+        //60% chance
         else if (IsBetween(.2f, .8f, curPlayerMarkPos))
             return SkillCheck.Average;
-        //remaining 40%
+        //remaining
         else
             return SkillCheck.Poor;
     }
