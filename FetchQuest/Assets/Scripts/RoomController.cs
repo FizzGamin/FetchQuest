@@ -7,6 +7,7 @@ using TMPro;
 public class RoomController : MonoBehaviour
 {
     private const float TURN_TIMER = 3f;
+    private float curTime = 0f;
 
     PlayerController player;
     EnemyController enemy;
@@ -57,32 +58,32 @@ public class RoomController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(TURN_TIMER);
+            //Wait for action or no action
+            while(curTime < TURN_TIMER && SkillCheckController.instance.IsSkillCheckEnabled())
+            {
+                yield return new WaitForSeconds(.1f);
+                curTime += .1f;
+            }
+            SkillCheckController.instance.EnableSkillCheck(false);
 
             //Double sets for if player didnt go
             SetSkillCheckVisuals();
 
+            //Allow visual time to read or animations
+            curTime = 0f;
+            yield return new WaitForSeconds(2.5f);
+
             //Enemy attack
             if (!turnController.IsPlayerTurn())
             {
-                //Did player defend?
-                //if()
-                //else
                 AttackPlayer();
             }
             //Player Attacking
             else
             {
-                //Did attack succeed?
-                //if()
-                //else
                 AttackEnemy();
             }
             turnController.RemoveCurrentTurn();
-
-            //Allow visual time to read poor
-            SkillCheckController.instance.EnableSkillCheck(false);
-            yield return new WaitForSeconds(.5f);
         }
     }
 
