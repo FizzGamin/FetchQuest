@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RoomController : MonoBehaviour
 {
@@ -19,11 +20,13 @@ public class RoomController : MonoBehaviour
 
     //PlayerSkillCheckChoice
     private SkillCheckController.SkillCheck playerSkillCheck = SkillCheckController.SkillCheck.Poor;
+    public TMP_Text skillCheckText;
 
     void Awake()
     {
         player = FindObjectOfType<PlayerController>();
         turnController = FindObjectOfType<TurnCounterController>();
+        skillCheckText.text = "";
     }
 
     void Update()
@@ -32,6 +35,7 @@ public class RoomController : MonoBehaviour
         {
             playerSkillCheck = SkillCheckController.instance.GetSkillCheck();
             SkillCheckController.instance.EnableSkillCheck(false);
+            SetSkillCheckVisuals();
         }
     }
 
@@ -55,8 +59,11 @@ public class RoomController : MonoBehaviour
         {
             yield return new WaitForSeconds(TURN_TIMER);
 
+            //Double sets for if player didnt go
+            SetSkillCheckVisuals();
+
             //Enemy attack
-            if(!turnController.IsPlayerTurn())
+            if (!turnController.IsPlayerTurn())
             {
                 //Did player defend?
                 //if()
@@ -72,6 +79,10 @@ public class RoomController : MonoBehaviour
                 AttackEnemy();
             }
             turnController.RemoveCurrentTurn();
+
+            //Allow visual time to read poor
+            SkillCheckController.instance.EnableSkillCheck(false);
+            yield return new WaitForSeconds(.5f);
         }
     }
 
@@ -103,7 +114,7 @@ public class RoomController : MonoBehaviour
             switch(playerSkillCheck)
             {
                 case SkillCheckController.SkillCheck.Perfect:
-                    player.TakeDamage(0);//Blocked
+                    player.TakeDamage(enemy.attackStrength / 4);//Blocked
                     break;
                 case SkillCheckController.SkillCheck.Good:
                     player.TakeDamage(enemy.attackStrength/2);//Sorta blocked
@@ -129,16 +140,16 @@ public class RoomController : MonoBehaviour
             switch (playerSkillCheck)
             {
                 case SkillCheckController.SkillCheck.Perfect:
-                    enemy.TakeDamage(enemy.attackStrength * 2);//critical hit
+                    enemy.TakeDamage(player.attackStrength * 2);//critical hit
                     break;
                 case SkillCheckController.SkillCheck.Good:
-                    enemy.TakeDamage(enemy.attackStrength);//Took the hit
+                    enemy.TakeDamage(player.attackStrength);//Took the hit
                     break;
                 case SkillCheckController.SkillCheck.Average:
-                    enemy.TakeDamage(enemy.attackStrength / 2);//Sorta blocked
+                    enemy.TakeDamage(player.attackStrength / 2);//Sorta blocked
                     break;
                 case SkillCheckController.SkillCheck.Poor:
-                    enemy.TakeDamage(0);//Blocked
+                    enemy.TakeDamage(player.attackStrength / 4);//Blocked
                     break;
             }
 
@@ -147,10 +158,32 @@ public class RoomController : MonoBehaviour
         Reset();
     }
 
+    public void SetSkillCheckVisuals()
+    {
+        skillCheckText.text = playerSkillCheck.ToString();
+        switch (playerSkillCheck)
+        {
+
+            case SkillCheckController.SkillCheck.Perfect:
+                skillCheckText.color = Color.cyan;
+                break;
+            case SkillCheckController.SkillCheck.Good:
+                skillCheckText.color = Color.green;
+                break;
+            case SkillCheckController.SkillCheck.Average:
+                skillCheckText.color = Color.yellow;
+                break;
+            case SkillCheckController.SkillCheck.Poor:
+                skillCheckText.color = Color.red;
+                break;
+        }
+    }
+
     public void Reset()
     {
         SkillCheckController.instance.ResetSkillCheck();
         playerSkillCheck = SkillCheckController.SkillCheck.Poor;
+        skillCheckText.text = "";
     }
 
     public void PlayerDied()

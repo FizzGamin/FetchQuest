@@ -9,7 +9,7 @@ public class SkillCheckController : MonoBehaviour
     public Image playerMark;
     private float skillCheckWidth = 180f;
 
-    public float curPlayerMarkPos = 0; // -skillCheckWidth to skillCheckWidth
+    public float curPlayerMarkPos = 0; // 0 - 1
     public float duration = 1; 
     public bool active = true;
     public bool movingRight = true;
@@ -34,8 +34,9 @@ public class SkillCheckController : MonoBehaviour
 
     public void ResetSkillCheck()
     {
-        curPlayerMarkPos = Random.Range(0.00f, 1.00f);
+        //curPlayerMarkPos = Random.Range(0f, 100f) / 100f;
         time = 0;
+        movingRight = Random.Range(0, 2) == 0;
         EnableSkillCheck(true);
     }
 
@@ -76,13 +77,13 @@ public class SkillCheckController : MonoBehaviour
     public SkillCheck GetSkillCheck()
     {
         //from 0 - 1 total
-        //10% chance
-        if (IsBetween(.45f, .55f, curPlayerMarkPos))
+        //8% chance
+        if (IsBetween(.46f, .54f, curPlayerMarkPos))
             return SkillCheck.Perfect;
-        //20% chance (30%-10%)
-        else if(IsBetween(.35f, .65f, curPlayerMarkPos))
+        //16% chance (24%-8%)
+        else if(IsBetween(.38f, .62f, curPlayerMarkPos))
             return SkillCheck.Good;
-        //30% (60%-20%-10%)
+        //36% (60%-16%-8%)
         else if (IsBetween(.2f, .8f, curPlayerMarkPos))
             return SkillCheck.Average;
         //remaining 40%
