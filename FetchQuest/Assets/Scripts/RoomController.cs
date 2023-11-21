@@ -17,11 +17,22 @@ public class RoomController : MonoBehaviour
     public List<GameObject> roomEnemies = new List<GameObject>();
     public int curEnemyIndex = 0;
 
+    //PlayerSkillCheckChoice
+    private SkillCheckController.SkillCheck playerSkillCheck = SkillCheckController.SkillCheck.Poor;
+
     void Awake()
     {
         player = FindObjectOfType<PlayerController>();
         turnController = FindObjectOfType<TurnCounterController>();
- 
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && SkillCheckController.instance.IsSkillCheckEnabled())
+        {
+            playerSkillCheck = SkillCheckController.instance.GetSkillCheck();
+            SkillCheckController.instance.EnableSkillCheck(false);
+        }
     }
 
     void Start()
@@ -31,9 +42,7 @@ public class RoomController : MonoBehaviour
 
         //Testing turn controller
         turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
-        turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
         turnController.AddTurn(player.gameObject.GetComponent<Image>().sprite, player);
-        turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
         turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
         turnController.AddTurn(player.gameObject.GetComponent<Image>().sprite, player);
 
@@ -84,29 +93,64 @@ public class RoomController : MonoBehaviour
             enemy.transform.localScale = Vector3.one;
             curEnemyIndex++;
         }
-
-        //populate turn cont based off attack speeds
-
     }
 
     public void AttackPlayer()
     {
-        Debug.Log("enemy attacking player");
+        Debug.Log("enemy attacking player: " + playerSkillCheck.ToString());
         if (player != null && enemy != null)
         {
-            player.TakeDamage(enemy.attackStrength);
+            switch(playerSkillCheck)
+            {
+                case SkillCheckController.SkillCheck.Perfect:
+                    player.TakeDamage(0);//Blocked
+                    break;
+                case SkillCheckController.SkillCheck.Good:
+                    player.TakeDamage(enemy.attackStrength/2);//Sorta blocked
+                    break;
+                case SkillCheckController.SkillCheck.Average:
+                    player.TakeDamage(enemy.attackStrength);//Took the hit
+                    break;
+                case SkillCheckController.SkillCheck.Poor:
+                    player.TakeDamage(enemy.attackStrength*2);//Took a harder hit
+                    break;
+            }
+
             turnController.AddTurn(enemy.gameObject.GetComponent<Image>().sprite, enemy);
         }
+        Reset();
     }
 
     public void AttackEnemy()
     {
-        Debug.Log("player attacking enemy");
+        Debug.Log("player attacking enemy: " + playerSkillCheck.ToString());
         if (player != null && enemy != null)
         {
-            enemy.TakeDamage(player.attackStrength);
+            switch (playerSkillCheck)
+            {
+                case SkillCheckController.SkillCheck.Perfect:
+                    enemy.TakeDamage(enemy.attackStrength * 2);//critical hit
+                    break;
+                case SkillCheckController.SkillCheck.Good:
+                    enemy.TakeDamage(enemy.attackStrength);//Took the hit
+                    break;
+                case SkillCheckController.SkillCheck.Average:
+                    enemy.TakeDamage(enemy.attackStrength / 2);//Sorta blocked
+                    break;
+                case SkillCheckController.SkillCheck.Poor:
+                    enemy.TakeDamage(0);//Blocked
+                    break;
+            }
+
             turnController.AddTurn(player.gameObject.GetComponent<Image>().sprite, player);
         }
+        Reset();
+    }
+
+    public void Reset()
+    {
+        SkillCheckController.instance.ResetSkillCheck();
+        playerSkillCheck = SkillCheckController.SkillCheck.Poor;
     }
 
     public void PlayerDied()

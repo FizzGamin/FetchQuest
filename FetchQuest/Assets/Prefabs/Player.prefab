@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  attackStrength: 10
+  attackStrength: 5
   attackSpeed: 1
   healthBar: {fileID: 6249960948217205447}
 --- !u!1 &1886872484658294535
