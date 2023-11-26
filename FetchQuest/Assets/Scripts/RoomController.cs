@@ -22,12 +22,14 @@ public class RoomController : MonoBehaviour
     //PlayerSkillCheckChoice
     private SkillCheckController.SkillCheck playerSkillCheck = SkillCheckController.SkillCheck.Poor;
     public TMP_Text skillCheckText;
+    public TMP_Text skillCheckTextBg;
 
     void Awake()
     {
         player = FindObjectOfType<PlayerController>();
         turnController = FindObjectOfType<TurnCounterController>();
         skillCheckText.text = "";
+        skillCheckTextBg.text = "";
     }
 
     void Update()
@@ -162,6 +164,8 @@ public class RoomController : MonoBehaviour
     public void SetSkillCheckVisuals()
     {
         skillCheckText.text = playerSkillCheck.ToString();
+        skillCheckTextBg.text = playerSkillCheck.ToString();
+
         switch (playerSkillCheck)
         {
 
@@ -185,6 +189,7 @@ public class RoomController : MonoBehaviour
         SkillCheckController.instance.ResetSkillCheck();
         playerSkillCheck = SkillCheckController.SkillCheck.Poor;
         skillCheckText.text = "";
+        skillCheckTextBg.text = "";
     }
 
     public void PlayerDied()
