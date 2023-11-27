@@ -766,7 +766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05e2db2998a1d174391f6789eeadaefc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnCharacterPrefab: {fileID: 5435293693265388029, guid: 2cc4f20377a2bf94e9358a40a568afac, type: 3}
+  turnCharacterPrefab: {fileID: 5085190072744621327, guid: b0e9ff10cf2d30b478dda6528dc7598e, type: 3}
   curTurnsListed: []
   curEntityTurn: []
 --- !u!1 &963194225

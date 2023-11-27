@@ -30,7 +30,7 @@ public class TurnCounterController : MonoBehaviour
         GameObject newTurn = Instantiate(turnCharacterPrefab);
         newTurn.transform.SetParent(transform);
         newTurn.transform.localScale = Vector3.one;
-        newTurn.GetComponent<Image>().sprite = image;
+        newTurn.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = image;
         curTurnsListed.Add(newTurn);
         curEntityTurn.Add(curEntity);
     }
